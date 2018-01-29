@@ -3,27 +3,36 @@ Author: Jin Chul Ann
 Email: jinchulann93@gmail.com
 Language: Ruby
 
-Line Count For Implementation 1095
 
+Line Count For Implementation: 
+
+		1095 total
 		22	token.rb
 		303 scanner.rb
 		770 parser.rb
+
 
 Run:
 	./parser.rb input_files
 	OR
 	./parser.rb input_files output_files
 
-	NOTE:if no output_files is given, puts output in "output.c" by default if parsing was successful
+NOTE:
+	if no output_files is given, puts output in "output.c" by default if parsing was successful
+
 
 Functionality:
 
-		The parser implements LL(1) grammar (some parts LL(3)) using recursive descent method. The grammar is same as the previous part of the assignment but only has change of removing while and if statements to gotos, and only using gvar and lvar.
-		If the parsing was sucessful it returns number of functions, variables and statements in the input_file. However, when it fails, it returns error and does not produce an output file.
+		The parser is implemented using mostly LL(1) grammar (with some parts LL(3)) using recursive descent method. 
+		The implementation changes regular C codes into lower standard of C using gotos, and only using gvar and lvar.
+		If the parsing was sucessful it returns number of functions, variables and statements in the input_file. 
+		However, when it fails, it returns error and does not produce an output file.
+		Functionality of the implementation can be checked by comparing outputs of compiled codes: regular C code and produced C code from the implementation.
 
 	Design decision:
 
 		The grammar was slightly modified to allow as much LL(1) possible. Some grammar includes "_tail"
+		To refer to the grammar used in this implementation check "ParserGrammar.txt"
 
 	Test Cases:
 

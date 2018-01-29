@@ -1,0 +1,59 @@
+=begin
+These are all the grammar that has been used in this program
+Some parts of the grammar has been modified as it was impossible to code them in LL(1)
+The program is LL parser but some parts include LL(3) as data decls has to see whether 3rd token is left parenthesis
+
+
+<program> --> <data decls> <func list>
+<func list> --> empty | <func> <func list>
+<func> --> <func decl> semicolon | <func decl> left_brace <data decls> <statements> right_brace
+<func decl> --> <type name> ID left_parenthesis <parameter list> right_parenthesis
+<type name> --> int | void
+<parameter list> --> empty | void | <non-empty list>
+----------
+<non-empty list> --> <type name> ID | <non-empty list> comma <type name> ID #replaced by RR variant
+----------
+<non-empty list> --> <type name> ID <non-empty list tail>
+<non-empty list tail> --> empty | comma <type name> ID <non-empty list tail>
+
+<data decls> --> empty | <type name> <id list> semicolon <data decls>
+----------
+<id list> --> <id> | <id list> comma <id> #this is replaced by right-recursive variant 
+----------
+<id list> --> <id> <id list tail>
+<id list tail> --> empty | comma <id> <id list tail>
+<id> --> ID | ID left_bracket <expression> right_bracket
+
+
+<block statements> --> left_brace <statements> right_brace
+<statements> --> empty | <statement> <statements> 
+<statement> --> <assignment> | <general func call> | <printf func call> | <scanf func call> | <if statement> | <while statement> | <return statement> | <break statement> | <continue statement>
+<assignment> --> <id> equal_sign <expression> semicolon 
+<general func call> --> ID left_parenthesis <expr list> right_parenthesis semicolon     (ID is not "printf" or "scanf".)
+<printf func call> --> ID left_parenthesis <string> right_parenthesis semicolon | ID left_parenthesis string comma <expression> right_parenthesis semicolon    (ID is "printf".)
+<scanf func call> --> ID left_parenthesis string comma and_sign <expression> right_parenthesis semicolon    (ID is "scanf".)
+<expr list> --> empty | <non-empty expr list>
+-----------
+<non-empty expr list> --> <expression> | <non-empty expr list> comma <expression>
+-----------
+<non-empty expr list> --> <expression> <non-empty expr list tail>
+<non-empty expr list tail> --> empty | comma <expression> <non-empty expr list tail>
+
+<if statement> --> if left_parenthesis <condition expression> right_parenthesis <block statements> | if left_parenthesis <condition expression> right_parenthesis <block statements> else <block statements>
+<condition expression> -->  <condition> | <condition> <condition op> <condition> 
+<condition op> --> double_end_sign | double_or_sign | not_sign
+<condition> --> <expression> <comparison op> <expression>
+<comparison op> --> == | != | > | >= | < | <=
+
+<while statement> --> while left_parenthesis <condition expression> right_parenthesis <block statements>
+<return statement> --> return <expression> semicolon | return semicolon
+<break statement> ---> break semicolon
+<continue statement> ---> continue semicolon
+
+<expression> --> <term> | <expression> <addop> <term>
+<addop> --> plus_sign | minus_sign
+<term> --> <factor> | <term> <mulop> <factor>
+<mulop> --> star_sign | forward_slash
+<factor> --> ID | ID left_bracket <expression> right_bracket | ID left_parenthesis <expr list> right_parenthesis | NUMBER | minus_sign NUMBER | left_parenthesis <expression> right_parenthesis
+	
+=end
